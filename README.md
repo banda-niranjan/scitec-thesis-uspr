@@ -5,3 +5,5 @@
 Folder *Circuits* has all the circuits that have been used in my Thesis
 
 Folder *DataViz* contains all the .py files for the carried out results
+
+Folder *ExcelData* contains all the .xlsx files for the carried out results
