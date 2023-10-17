@@ -9,6 +9,9 @@ sampling_freq = 1e7;
 #Sampling Interval
 sampling_interval= 1/sampling_freq;
 
+#Creating Sub plots for non connected and connected data samples
+fig, (ax1, ax2) = plt.subplots(2)
+
 dataframe_raw = pd.read_excel(r"C:\Users\banda\PycharmProjects\pythonProject\scitec\Excel data\1MHz Raw vs Connected.xlsx", sheet_name=0);
 dataframe_connected = pd.read_excel(r"C:\Users\banda\PycharmProjects\pythonProject\scitec\Excel data\1MHz Raw vs Connected.xlsx", sheet_name=1);
 time_1mhz = dataframe_raw["Time (µs) - Channel 1"].tolist()
@@ -16,10 +19,6 @@ time_1mhz = dataframe_raw["Time (µs) - Channel 1"].tolist()
 amplitude_1mhz_raw = dataframe_raw["Amplitude (mV) - Channel 1"].tolist()
 amplitude_1mhz_connected = dataframe_connected["Amplitude (mV) - Channel 1"].tolist()
 
-plt.plot(time_1mhz, amplitude_1mhz_raw)
-plt.plot(time_1mhz, amplitude_1mhz_connected)
-
-plt.show()
 
 #Fourier for raw data
 fourier_raw = np.fft.fft(amplitude_1mhz_raw)/len(amplitude_1mhz_raw);
@@ -32,15 +31,20 @@ frequencies_raw = values_raw/timePeriod_raw
 #Fourier for piezo connected to the sample
 fourier_connected = np.fft.fft(amplitude_1mhz_connected)/len(amplitude_1mhz_connected);
 fourier_connected = fourier_connected[range(int(len(amplitude_1mhz_connected)/2))];
-
 tpcount_connected = len(amplitude_1mhz_connected)
 values_connected = np.arange(int(tpcount_connected/2))
 timePeriod_connected = tpcount_connected/sampling_freq
 frequencies_connected = values_connected/timePeriod_connected
 
-
-#plt.plot(frequencies, abs(fourier))
-plt.plot(frequencies_raw, abs(fourier_raw))
-plt.plot(frequencies_connected, abs(fourier_connected))
+#Subplots
+fig, axs = plt.subplots(2, 2)
+axs[0, 0].plot(time_1mhz, amplitude_1mhz_raw)
+axs[0, 0].set_title('t vs A - Raw')
+axs[0, 1].plot(time_1mhz, amplitude_1mhz_connected, 'tab:orange')
+axs[0, 1].set_title('t vs A - Connected')
+axs[1, 0].plot(frequencies_raw, abs(fourier_raw), 'tab:green')
+axs[1, 0].set_title('f vs A - Raw')
+axs[1, 1].plot(frequencies_connected, abs(fourier_connected), 'tab:red')
+axs[1, 1].set_title('f vs A - Connected')
+fig.tight_layout(pad=0.5)
 plt.show()
-plt.clf()
