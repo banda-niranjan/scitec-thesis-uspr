@@ -2,8 +2,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 #Sampling frequency
-sampling_freq = 2e6;
+sampling_freq = 1e7;
 
 #Sampling Interval
 sampling_interval= 1/sampling_freq;
@@ -42,3 +43,4 @@ frequencies_connected = values_connected/timePeriod_connected
 plt.plot(frequencies_raw, abs(fourier_raw))
 plt.plot(frequencies_connected, abs(fourier_connected))
 plt.show()
+plt.clf()
