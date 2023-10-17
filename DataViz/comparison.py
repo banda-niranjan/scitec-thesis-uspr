@@ -8,37 +8,37 @@ sampling_freq = 2e6;
 #Sampling Interval
 sampling_interval= 1/sampling_freq;
 
-time_40khz = list(np.arange(0,0.0003,0.000001));
+dataframe_raw = pd.read_excel(r"C:\Users\banda\PycharmProjects\pythonProject\scitec\Excel data\1MHz Raw vs Connected.xlsx", sheet_name=0);
+dataframe_connected = pd.read_excel(r"C:\Users\banda\PycharmProjects\pythonProject\scitec\Excel data\1MHz Raw vs Connected.xlsx", sheet_name=1);
+time_1mhz = dataframe_raw["Time (µs) - Channel 1"].tolist()
 
-time_1mhz = list(np.arange(0,0.0003,0.000001));
+amplitude_1mhz_raw = dataframe_raw["Amplitude (mV) - Channel 1"].tolist()
+amplitude_1mhz_connected = dataframe_connected["Amplitude (mV) - Channel 1"].tolist()
 
-dataframe = pd.read_excel(r"C:/Users/banda/PycharmProjects/pythonProject/scitec/Excel Data/Results Overlap - 40KHz vs 1 MHz.xlsx", sheet_name=0);
-
-amplitude_1mhz = dataframe["Amplitude (mV) - Channel 1"].tolist()
-amplitude_40khz = dataframe["Amplitude (mV) - Channel 2"].tolist()
-
-plt.plot(time_1mhz, amplitude_1mhz)
-plt.plot(time_40khz, amplitude_40khz)
+plt.plot(time_1mhz, amplitude_1mhz_raw)
+plt.plot(time_1mhz, amplitude_1mhz_connected)
 
 plt.show()
 
-fourier = np.fft.fft(amplitude_40khz)/len(amplitude_40khz);
-fourier = fourier[range(int(len(amplitude_40khz)/2))];
+#Fourier for raw data
+fourier_raw = np.fft.fft(amplitude_1mhz_raw)/len(amplitude_1mhz_raw);
+fourier_raw = fourier_raw[range(int(len(amplitude_1mhz_raw)/2))];
+tpcount_raw = len(amplitude_1mhz_raw)
+values_raw = np.arange(int(tpcount_raw/2))
+timePeriod_raw = tpcount_raw/sampling_freq
+frequencies_raw = values_raw/timePeriod_raw
 
-tpcount = len(amplitude_40khz)
-values = np.arange(int(tpcount/2))
-timePeriod = tpcount/sampling_freq
-frequencies = values/timePeriod
+#Fourier for piezo connected to the sample
+fourier_connected = np.fft.fft(amplitude_1mhz_connected)/len(amplitude_1mhz_connected);
+fourier_connected = fourier_connected[range(int(len(amplitude_1mhz_connected)/2))];
 
-fourier1 = np.fft.fft(amplitude_1mhz)/len(amplitude_1mhz);
-fourier1 = fourier1[range(int(len(amplitude_1mhz)/2))];
-
-tpcount1 = len(amplitude_1mhz)
-values1 = np.arange(int(tpcount1/2))
-timePeriod1 = tpcount1/sampling_freq
-frequencies1 = values1/timePeriod1
+tpcount_connected = len(amplitude_1mhz_connected)
+values_connected = np.arange(int(tpcount_connected/2))
+timePeriod_connected = tpcount_connected/sampling_freq
+frequencies_connected = values_connected/timePeriod_connected
 
 
-plt.plot(frequencies, abs(fourier))
-plt.plot(frequencies1, abs(fourier1))
+#plt.plot(frequencies, abs(fourier))
+plt.plot(frequencies_raw, abs(fourier_raw))
+plt.plot(frequencies_connected, abs(fourier_connected))
 plt.show()
