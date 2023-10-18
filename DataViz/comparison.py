@@ -9,11 +9,8 @@ sampling_freq = 1e7; #Rule of thumb - 10 times the central frequency of the tran
 #Sampling Interval
 sampling_interval= 1/sampling_freq;
 
-#Creating Sub plots for non connected and connected data samples
-fig, (ax1, ax2) = plt.subplots(2)
-
-dataframe_raw = pd.read_excel(r"C:\Users\banda\PycharmProjects\pythonProject\scitec\Excel data\1MHz Raw vs Connected.xlsx", sheet_name=0);
-dataframe_connected = pd.read_excel(r"C:\Users\banda\PycharmProjects\pythonProject\scitec\Excel data\1MHz Raw vs Connected.xlsx", sheet_name=1);
+dataframe_raw = pd.read_excel(r'..\Excel data\1MHz_Raw_vs_Connected.xlsx', sheet_name=0);
+dataframe_connected = pd.read_excel(r'..\Excel data\1MHz_Raw_vs_Connected.xlsx', sheet_name=1);
 time_1mhz = dataframe_raw["Time (µs) - Channel 1"].tolist()
 
 amplitude_1mhz_raw = dataframe_raw["Amplitude (mV) - Channel 1"].tolist()
@@ -46,7 +43,7 @@ axs[1, 0].plot(frequencies_raw, abs(fourier_raw), 'tab:green')
 axs[1, 0].set_title('f vs A - Raw')
 axs[1, 1].plot(frequencies_connected, abs(fourier_connected), 'tab:red')
 axs[1, 1].set_title('f vs A - Connected')
-fig.tight_layout(pad=2)
+
 fig.suptitle("1 MHz Piezo - With and without the connection")
 plt.savefig("Results - Raw vs Connected")
 plt.show()
