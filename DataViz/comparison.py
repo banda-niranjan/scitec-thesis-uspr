@@ -4,7 +4,7 @@ import numpy as np
 
 
 #Sampling frequency
-sampling_freq = 1e7;
+sampling_freq = 1e6;
 
 #Sampling Interval
 sampling_interval= 1/sampling_freq;
