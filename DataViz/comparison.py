@@ -4,7 +4,7 @@ import numpy as np
 
 
 #Sampling frequency
-sampling_freq = 1e6; #Change
+sampling_freq = 1e7; #Rule of thumb - 10 times the central frequency of the transducer
 
 #Sampling Interval
 sampling_interval= 1/sampling_freq;
