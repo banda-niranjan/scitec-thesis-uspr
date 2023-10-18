@@ -44,7 +44,7 @@ axs[1, 0].set_title('f vs A - Raw')
 axs[1, 1].plot(frequencies_connected, abs(fourier_connected), 'tab:red')
 axs[1, 1].set_title('f vs A - Connected')
 
-fig.tight_layout(pad=1.8)
+fig.tight_layout(pad=1.8) #Size padding
 fig.suptitle("1 MHz Piezo - With and without the connection")
 plt.savefig("Results - Raw vs Connected")
 plt.show()
