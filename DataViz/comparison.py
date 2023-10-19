@@ -2,7 +2,6 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-
 #Sampling frequency
 sampling_freq = 1e7; #Rule of thumb - 10 times the central frequency of the transducer
 
