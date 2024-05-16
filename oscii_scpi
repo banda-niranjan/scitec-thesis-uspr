@@ -1,0 +1,41 @@
+import pyvisa as py
+
+#USB0::6833::1200::DS2D244503546::0::INSTR
+
+rm = py.ResourceManager()
+print(rm.list_resources())
+
+#Instrument ID obtained from query
+my_instrument = rm.open_resource("USB0::6833::1200::DS2D244503546::0::INSTR")
+#Query for verification
+my_instrument.query("*IDN?")
+my_instrument.write(":SYSTem:BEEPer 1")
+
+#Display Channel 1 only with counter
+my_instrument.write(":CHANnel1:DISPlay ON")
+my_instrument.write(":CHANnel2:DISPlay ON")
+my_instrument.write(":MEASure:COUNter:SOURce CHANnel1")
+
+#To set the channel 1, 2 at -10.5V and -10.2V
+my_instrument.write(":CHANnel1:OFFSet -10.5")
+my_instrument.write(":CHANnel2:OFFSet -10.2")
+
+#To set the horizontal scaling to 2us
+my_instrument.write(":TIMebase:SCALe 2e-6")
+
+#To set the horizontal timebase delay to 12us
+my_instrument.write(":TIMebase:DELay:ENABle 0")
+my_instrument.write(":TIMebase[:MAIN]:OFFSet 12e-6")
+
+#To set the channel 1 vertical scaling to 1.3V
+my_instrument.write(":CHANnel1:SCALe 1.3")
+
+#To set the channel 2 as a trigger with a trigger voltage of 2V
+my_instrument.write(":TRIGger:EDGE:SOURce CHANnel2")
+my_instrument.write(":TRIGger:EDGe:LEVel 2")
+
+my_instrument.write(":SINGle")
+
+#To save the CSV onto an external pendrive
+#my_instrument.write(":SAVE:CSV D:\123.csv")
+
